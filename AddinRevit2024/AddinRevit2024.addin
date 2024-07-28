@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+	<AddIn Type="Command">
+		<Text>Command AddinRevit2024</Text>
+		<Description>AddinRevit2024</Description>
+		<Assembly>AddinRevit2024.dll</Assembly>
+		<FullClassName>AddinRevit2024.Command</FullClassName>
+		<ClientId>fa6e0db7-5db0-425a-9fe1-6dad69eb7278</ClientId>
+		<VendorId>Tobic</VendorId>
+		<VendorDescription>Tobic</VendorDescription>
+	</AddIn>
+	<AddIn Type="Application">
+		<Name>Application AddinRevit2024</Name>
+		<Assembly>AddinRevit2024.dll</Assembly>
+		<FullClassName>AddinRevit2024.App</FullClassName>
+		<ClientId>05a15bfa-0978-4914-8d14-59303c7cc608</ClientId>
+		<VendorId>Tobic</VendorId>
+		<VendorDescription>Tobic</VendorDescription>
+	</AddIn>
+</RevitAddIns>
