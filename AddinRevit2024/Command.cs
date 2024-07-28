@@ -59,10 +59,18 @@ namespace AddinRevit2024
             listDuctTypeCus= listDuctTypeCus.OrderBy(x=>x.Name).ToList();
 
             comboboxWpf.comboboxDuctType.ItemsSource = listDuctTypeCus;
+
+            comboboxWpf.listVidewDuctType.ItemsSource = listDuctTypeCus;
+
+
+            
+
             comboboxWpf.ShowDialog();
 
             MechanicalSystemType systemTypeChoose= comboboxWpf.comboboxSystemType.SelectedItem as MechanicalSystemType;
             DuctTypeCustom ductCustomTypeChose= comboboxWpf.comboboxDuctType.SelectedItem as DuctTypeCustom;
+
+            List<DuctTypeCustom> listItemSeleted = comboboxWpf.listVidewDuctType.SelectedItems.Cast<DuctTypeCustom>().ToList();
 
             Level level = doc.ActiveView.GenLevel;
 
@@ -77,6 +85,9 @@ namespace AddinRevit2024
                     t.Commit();
                 }
             }
+
+
+
 
 
           

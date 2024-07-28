@@ -16,5 +16,7 @@ namespace AddinRevit2024.DemoWpf
         public ElementId Id { get; set; }
 
         public string Name { set; get; }
+
+        public bool Check { set; get; }
     }
 }

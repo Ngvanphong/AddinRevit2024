@@ -5,12 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AddinRevit2024.DemoWpf"
              mc:Ignorable="d" 
-             Width="400" Height="300">
+             Width="400" Height="400">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
             <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
@@ -40,7 +41,20 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <Button Click="btnCreateDuct" Content="Create" HorizontalAlignment="Right" Width="100" Height="30" Grid.Row="2" Grid.Column="1"/>
+        <ListView Name="listVidewDuctType" Grid.Row="2" Grid.Column="1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding Check}"/>
+                        <Separator Width="10"/>
+                        <Label Content="{Binding Name}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+
+        <Button Click="btnCreateDuct" Content="Create" HorizontalAlignment="Right" Width="100" Height="30" Grid.Row="3" Grid.Column="1"/>
 
     </Grid>
 </Window>
