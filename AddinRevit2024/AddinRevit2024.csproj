@@ -74,10 +74,20 @@
     </Compile>
     <Compile Include="DemoWpf\DuctTypeCustom.cs" />
     <Compile Include="Extension.cs" />
+    <Compile Include="FamilyView\FamilyAndType.cs" />
+    <Compile Include="FamilyView\FamilyModel.cs" />
+    <Compile Include="FamilyView\FamilyTypeModel.cs" />
+    <Compile Include="FamilyView\FamilyViewWpf.xaml.cs">
+      <DependentUpon>FamilyViewWpf.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="DemoWpf\ComboboxWpf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FamilyView\FamilyViewWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

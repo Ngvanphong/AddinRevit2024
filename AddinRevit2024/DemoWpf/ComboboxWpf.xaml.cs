@@ -1,4 +1,5 @@
-﻿using Autodesk.Revit.DB;
+﻿using AddinRevit2024.FamilyView;
+using Autodesk.Revit.DB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,11 @@ namespace AddinRevit2024.DemoWpf
         private void btnCreateDuct(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void familySelectedChange(object sender, SelectionChangedEventArgs e)
+        {
+            
         }
     }
 }
