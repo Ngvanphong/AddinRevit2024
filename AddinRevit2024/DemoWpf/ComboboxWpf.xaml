@@ -6,6 +6,23 @@
              xmlns:local="clr-namespace:AddinRevit2024.DemoWpf"
              mc:Ignorable="d" 
              Width="400" Height="400">
+    <Window.Resources>
+        <Style x:Key="styleButton" TargetType="Button">
+
+            <Setter Property="Background" Value="Pink"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="30"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Red"/>
+                    <Setter Property="FontStyle" Value="Italic"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="Background" Value="Aqua"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
@@ -20,17 +37,7 @@
 
         <TextBlock VerticalAlignment="Center" Text="System Type:"/>
 
-        <ComboBox  Name="comboboxSystemType" Height="30" Grid.Column="1">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Name}"/>
-                        <Separator Width="5"/>
-                        <TextBlock Foreground="Blue" Text="{Binding Id}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
+        <TextBlock Grid.Column="1" Name="txtText"/>
 
         <TextBlock Grid.Row="1" VerticalAlignment="Center" Text="Duct Type:"/>
         <ComboBox  Name="comboboxDuctType" Height="30" Grid.Row="1" Grid.Column="1">
@@ -40,21 +47,63 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
+        
+        
 
-        <ListView Name="listVidewDuctType" Grid.Row="2" Grid.Column="1">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding Check}"/>
-                        <Separator Width="10"/>
-                        <Label Content="{Binding Name}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+        <!--<ListView Name="listVidewDuctType" Grid.Row="2" Grid.Column="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Id" Width="100"
+                                    DisplayMemberBinding="{Binding Id}">
+                        
+                    </GridViewColumn>
+                    <GridViewColumn Width="100" Header="Name" DisplayMemberBinding="{Binding Name}"/>
 
-        </ListView>
+                    <GridViewColumn Header="CheckBox" Width="70">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Check}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                
+                </GridView>
+            </ListView.View>
 
-        <Button Click="btnCreateDuct" Content="Create" HorizontalAlignment="Right" Width="100" Height="30" Grid.Row="3" Grid.Column="1"/>
+        </ListView>-->
 
+        <DataGrid AutoGenerateColumns="False" Grid.Row="2" Grid.Column="1" Name="dataGrid">
+            <DataGrid.Columns>
+                
+                <DataGridTemplateColumn Header="Name">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Check">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Check}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel  HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+            <Button Click="btnCreateDuct" Content="Create" HorizontalAlignment="Right" Style="{StaticResource styleButton}" />
+
+            <Button  Style="{StaticResource styleButton}" >
+                <Button.Content>
+                    <TextBlock Text="100"/>
+                </Button.Content>
+            </Button>
+
+        </StackPanel>
+        
     </Grid>
 </Window>

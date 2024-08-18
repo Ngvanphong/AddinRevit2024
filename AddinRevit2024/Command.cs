@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 using Autodesk.Revit.DB.Mechanical;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.DB.Electrical;
-
+using System.Windows.Forms;
+using Autodesk.Revit.DB.Architecture;
 
 namespace AddinRevit2024
 {
@@ -21,76 +22,117 @@ namespace AddinRevit2024
         {
             UIDocument uiDoc = commandData.Application.ActiveUIDocument;
             Document doc = uiDoc.Document;
-
-            ICollection<ElementId> selectedIds = uiDoc.Selection.GetElementIds();
-            List<Line> lines = new List<Line>();    
-            foreach(ElementId id in selectedIds)
+            List<Line> listLine= new List<Line>();
+            while (true) 
             {
-                DetailCurve detailCurve = doc.GetElement(id) as DetailCurve;
-                if (detailCurve != null)
+                try
                 {
-                    Curve curve = detailCurve.GeometryCurve as Curve;
-                    Line lineNew = curve as Line;
-                    if (lineNew != null)
+                    Reference pickObject = uiDoc.Selection.PickObject(Autodesk.Revit.UI.Selection.ObjectType.Element
+                        , "Pick line");
+                    DetailLine detailLine = doc.GetElement(pickObject) as DetailLine;
+                    if (detailLine != null) 
                     {
-                        lines.Add(lineNew);
+                        Curve curve = detailLine.GeometryCurve;
+                        listLine.Add(curve as Line);
                     }
+                }
+                catch 
+                { 
+                    break; 
                 }
             }
 
-           
-            ComboboxWpf comboboxWpf= new ComboboxWpf();
+            var pipeSystem = new FilteredElementCollector(doc).OfClass(typeof(PipingSystemType)).First();
+            var pipeType = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_PipeCurves)
+                .WhereElementIsElementType().FirstOrDefault(x=>x.Name=="Default");
 
-            var allSystem = new FilteredElementCollector(doc).OfClass(typeof(MechanicalSystemType))
-               .Cast<MechanicalSystemType>();
-            comboboxWpf.comboboxSystemType.ItemsSource = allSystem;
+            //Pipe previousPipe = null;
+            List<Pipe> listNewPipe = new List<Pipe>();
+            for (int i = 0; i < listLine.Count; i++)
+            { 
+                using(Transaction t= new Transaction(doc, "CreatePipe"))
+                {
+                    t.Start();
+                    Line line = listLine[i];
+                    XYZ start = line.GetEndPoint(0);
+                    XYZ end = line.GetEndPoint(1);
+                    var newPipe = Autodesk.Revit.DB.Plumbing.Pipe.Create(doc, pipeSystem.Id, pipeType.Id,
+                        doc.ActiveView.GenLevel.Id, start, end);
+                    listNewPipe.Add(newPipe);
+                    //else
+                    //{
+                    //    Connector endPreviousConnect = previousPipe.ConnectorManager.Lookup(1);
+                    //    XYZ end = line.GetEndPoint(1);
+                    //    previousPipe = Autodesk.Revit.DB.Plumbing.Pipe.Create(doc, pipeType.Id,
+                    //        doc.ActiveView.GenLevel.Id, endPreviousConnect, end);
 
-            List<DuctType> ductTypes= new FilteredElementCollector(doc).OfClass(typeof(DuctType))
-                .Cast<DuctType>().ToList();
-
-            List<DuctTypeCustom> listDuctTypeCus = new List<DuctTypeCustom>();
-            foreach (DuctType ductType in ductTypes) 
-            {
-                ElementId id = ductType.Id;
-                string name= $"{ductType.FamilyName}: {ductType.Name}";
-                DuctTypeCustom ductTypeCus = new DuctTypeCustom(id, name);
-                listDuctTypeCus.Add(ductTypeCus);
+                    //}
+                    t.Commit();
+                }
+                
             }
-
-            listDuctTypeCus= listDuctTypeCus.OrderBy(x=>x.Name).ToList();
-
-            comboboxWpf.comboboxDuctType.ItemsSource = listDuctTypeCus;
-
-            comboboxWpf.listVidewDuctType.ItemsSource = listDuctTypeCus;
-
+            using(Transaction t= new Transaction(doc, "Connect"))
+            {
+                t.Start();
+                for(int i = 0; i < listNewPipe.Count-1; i++)
+                {
+                    Pipe pipePre = listNewPipe[i];
+                    Pipe pipeNex = listNewPipe[i + 1];
+                    Connector startConnect = pipePre.ConnectorManager.Lookup(1);
+                    Connector endConnect = pipeNex.ConnectorManager.Lookup(0);
+                    var eblow = doc.Create.NewElbowFitting(startConnect, endConnect);
+                }
+                t.Commit();
+            }
 
             
 
-            comboboxWpf.ShowDialog();
 
-            MechanicalSystemType systemTypeChoose= comboboxWpf.comboboxSystemType.SelectedItem as MechanicalSystemType;
-            DuctTypeCustom ductCustomTypeChose= comboboxWpf.comboboxDuctType.SelectedItem as DuctTypeCustom;
-
-            List<DuctTypeCustom> listItemSeleted = comboboxWpf.listVidewDuctType.SelectedItems.Cast<DuctTypeCustom>().ToList();
-
-            Level level = doc.ActiveView.GenLevel;
-
-            foreach (Line line in lines) 
+           
+            Dimension dim = null;
+            XYZ pointClick = uiDoc.Selection.PickPoint("Pick a point");
+            XYZ previousVector = null;
+            int indexBreak = 0;
+            for (int i = 0; i < dim.Segments.Size; i++)
             {
-                using(Transaction t= new Transaction(doc, "CreateDuct"))
+                indexBreak = i;
+                DimensionSegment segment = dim.Segments.get_Item(i);
+                XYZ origin = segment.Origin;
+                XYZ currentVector = pointClick.Subtract(new XYZ(origin.X, origin.Y, pointClick.Z)).Normalize();
+                if (previousVector != null)
                 {
-                    t.Start();
-                    XYZ start = line.GetEndPoint(0);
-                    XYZ end= line.GetEndPoint(1);
-                    Autodesk.Revit.DB.Mechanical.Duct.Create(doc, systemTypeChoose.Id, ductCustomTypeChose.Id, level.Id, start, end);
-                    t.Commit();
+                    if (!currentVector.IsAlmostEqualTo(previousVector))
+                    {
+                        break;
+                    }
+                }
+                previousVector = currentVector;
+            }
+
+            ReferenceArray listRef1 = new ReferenceArray();
+            ReferenceArray listRef2 = new ReferenceArray;
+            for (int i = 0; i < dim.References.Size; i++)
+            {
+                if (i < indexBreak)
+                {
+                    listRef1.Append(dim.References.get_Item(i));
+                }
+                else
+                {
+                    listRef2.Append(dim.References.get_Item(i));
                 }
             }
 
-
-
-
-             return Result.Succeeded;
+            using(Transaction t= new Transaction(doc, "CreateDim"))
+            {
+                t.Start();
+                doc.Create.NewDimension(doc.ActiveView, dim.Curve as Line, listRef1);
+                doc.Create.NewDimension(doc.ActiveView, dim.Curve as Line, listRef2);
+                t.Commit();
+            }
+            
+            
+            return Result.Succeeded;
         }
     }
 }
