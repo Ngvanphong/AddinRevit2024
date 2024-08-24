@@ -28,7 +28,7 @@ namespace AddinRevit2024.FamilyView
         private void comboboxFamilyChanged(object sender, SelectionChangedEventArgs e)
         {
             FamilyModel familyModel= comboboxFamily.SelectedItem as FamilyModel;
-            var listType= Command.ListFamilyAndType.First(x=>x.Family.Id==familyModel.Id).Types;
+            var listType= FamilyTypeBinding.ListFamilyAndType.First(x=>x.Family.Id==familyModel.Id).Types;
             listViewType.ItemsSource = listType;
         }
     }

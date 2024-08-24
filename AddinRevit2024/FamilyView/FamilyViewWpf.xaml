@@ -27,7 +27,6 @@
         <ListView Name="listViewType" Grid.Row="1" Grid.Column="1">
             <ListView.View>
                 <GridView>
-                    
                     <GridViewColumn Header="x" Width="80">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -43,7 +42,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    
+
                 </GridView>
             </ListView.View>
         </ListView>

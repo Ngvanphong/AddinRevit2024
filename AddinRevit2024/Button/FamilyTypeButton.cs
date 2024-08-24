@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Autodesk.Revit.UI;
+using System.Windows.Media;
+using AddinRevit2024.Properties;
+using System.Reflection;
+
+namespace AddinRevit2024.Button
+{
+    internal class FamilyTypeButton
+    {
+        public void FamilyType(UIControlledApplication application)
+        {
+            string ribbonTabName = "MEPDemo";
+            string ribbonPanelName = "Mechanical";
+            try
+            {
+                application.CreateRibbonTab(ribbonTabName);
+            }
+            catch { }
+            RibbonPanel ribbonPanel = null;
+            foreach (RibbonPanel panel in application.GetRibbonPanels(ribbonTabName))
+            {
+                if (panel.Name == ribbonPanelName)
+                {
+                    ribbonPanel = panel;
+                    break;
+                }
+            }
+            if(ribbonPanel == null)
+            {
+                ribbonPanel = application.CreateRibbonPanel(ribbonTabName,ribbonPanelName);
+            }
+
+            ImageSource imageResource = Extension.GetImageSource(Resources.icons8_crop_24__1_);
+
+            PushButtonData pushButtonData = new PushButtonData("FamilyTypeShow", "Family\nType",
+                 Assembly.GetExecutingAssembly().Location, "AddinRevit2024.FamilyView.FamilyTypeBinding");
+            pushButtonData.Image = imageResource;
+            pushButtonData.LargeImage = imageResource;
+            pushButtonData.ToolTip = "Show family and type";
+            pushButtonData.LongDescription = "show family";
+
+            PushButton pushButton= ribbonPanel.AddItem(pushButtonData) as PushButton;
+            pushButton.Enabled = true;
+
+
+        }
+    }
+}

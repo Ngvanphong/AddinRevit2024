@@ -1,4 +1,5 @@
-﻿using Autodesk.Revit.UI;
+﻿using AddinRevit2024.Button;
+using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace AddinRevit2024
     {
         public Result OnStartup(UIControlledApplication a)
         {
+            FamilyTypeButton buttonFamily = new FamilyTypeButton();
+            buttonFamily.FamilyType(a);
             return Result.Succeeded;
         }
 
