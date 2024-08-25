@@ -45,7 +45,36 @@ namespace AddinRevit2024.Button
             PushButton pushButton= ribbonPanel.AddItem(pushButtonData) as PushButton;
             pushButton.Enabled = true;
 
+            Autodesk.Windows.RibbonItem buttonWindow = GetRibbonItem(pushButton);
+            Autodesk.Windows.RibbonToolTip ribbonButtonTooltip = new Autodesk.Windows.RibbonToolTip();
+            ribbonButtonTooltip.Title = "Family";
+            ribbonButtonTooltip.Shortcut = "T";
+            ribbonButtonTooltip.ExpandedVideo = new Uri(@"C:/Users/ngvan/Downloads/sample_640x360.swf");
 
+            buttonWindow.ToolTip = ribbonButtonTooltip;
+
+
+        }
+
+        private Autodesk.Windows.RibbonItem GetRibbonItem( RibbonItem item)
+        {
+            Autodesk.Windows.RibbonControl ribbonControl= UIFramework.RevitRibbonControl.RibbonControl;
+
+            foreach (var tab in ribbonControl.Tabs)
+            {
+                if (tab.Name != Constants.ribbonTabName) continue;
+                foreach (var panel in tab.Panels)
+                {
+                    foreach (var ribbonItem in panel.Source.Items)
+                    {
+                        if (ribbonItem.AutomationName == item.ItemText)
+                        {
+                            return ribbonItem as Autodesk.Windows.RibbonItem;
+                        }
+                    }
+                }
+            }
+            return null;
         }
     }
 }
