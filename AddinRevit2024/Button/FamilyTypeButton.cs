@@ -14,17 +14,15 @@ namespace AddinRevit2024.Button
     {
         public void FamilyType(UIControlledApplication application)
         {
-            string ribbonTabName = "MEPDemo";
-            string ribbonPanelName = "Mechanical";
             try
             {
-                application.CreateRibbonTab(ribbonTabName);
+                application.CreateRibbonTab(Constants.ribbonTabName);
             }
             catch { }
             RibbonPanel ribbonPanel = null;
-            foreach (RibbonPanel panel in application.GetRibbonPanels(ribbonTabName))
+            foreach (RibbonPanel panel in application.GetRibbonPanels(Constants.ribbonTabName))
             {
-                if (panel.Name == ribbonPanelName)
+                if (panel.Name == Constants.ribbonPanelName)
                 {
                     ribbonPanel = panel;
                     break;
@@ -32,7 +30,7 @@ namespace AddinRevit2024.Button
             }
             if(ribbonPanel == null)
             {
-                ribbonPanel = application.CreateRibbonPanel(ribbonTabName,ribbonPanelName);
+                ribbonPanel = application.CreateRibbonPanel(Constants.ribbonTabName, Constants.ribbonPanelName);
             }
 
             ImageSource imageResource = Extension.GetImageSource(Resources.icons8_crop_24__1_);

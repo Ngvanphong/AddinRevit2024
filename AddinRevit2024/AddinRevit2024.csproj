@@ -64,12 +64,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AddinRevit2024.addin" />
+    <None Include="Resources\icons8-crop-16.png" />
+    <None Include="Resources\icons8-crop-16 %281%29.png" />
+    <None Include="Resources\icons8-crop-16 %282%29.png" />
     <None Include="Resources\icons8-crop-24 %281%29.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Button\FamilyTypeButton.cs" />
+    <Compile Include="Button\ListSmallButton.cs" />
+    <Compile Include="Button\SplitButtonCustom.cs" />
     <Compile Include="Command.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="CreateColumn\CreateColunmnBinding.cs" />
     <Compile Include="DemoWpf\ComboboxWpf.xaml.cs">
       <DependentUpon>ComboboxWpf.xaml</DependentUpon>
     </Compile>
