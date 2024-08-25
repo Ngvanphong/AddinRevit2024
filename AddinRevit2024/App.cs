@@ -21,6 +21,8 @@ namespace AddinRevit2024
 
             SplitButtonCustom splitButtonCustom = new SplitButtonCustom();
             splitButtonCustom.Split(a);
+
+            new CombineButton().Combine(a);
             return Result.Succeeded;
         }
 

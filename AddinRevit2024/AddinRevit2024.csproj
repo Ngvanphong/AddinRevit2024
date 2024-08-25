@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Button\CombineButton.cs" />
     <Compile Include="Button\FamilyTypeButton.cs" />
     <Compile Include="Button\ListSmallButton.cs" />
     <Compile Include="Button\SplitButtonCustom.cs" />
