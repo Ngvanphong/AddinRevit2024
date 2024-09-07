@@ -16,11 +16,14 @@ namespace AddinRevit2024.TerminalFamily
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
             List<Family> listFamily= new FilteredElementCollector(doc).OfClass(typeof(Family)).
-                Cast<Family>().Where(x=>x.FamilyCategory.Id.Value == (long)BuiltInCategory.OST_DuctTerminal).ToList();
+                Cast<Family>().Where(x=>x.FamilyCategory.Id.Value == (long)BuiltInCategory.OST_DuctTerminal)
+                .ToList();
             List<TerminalViewModel> listTerminal = new List<TerminalViewModel>();
             foreach(Family family in listFamily)
             {
                 TerminalViewModel terminal = new TerminalViewModel(family.Id, family.Name);
+                terminal.Sub = new SubContain(family.FamilyCategory.Name);
+
                 listTerminal.Add(terminal);
             }
 
