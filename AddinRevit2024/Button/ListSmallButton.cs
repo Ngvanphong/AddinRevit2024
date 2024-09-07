@@ -35,8 +35,8 @@ namespace AddinRevit2024.Button
 
             ImageSource imageResource = Extension.GetImageSource(Resources.icons8_crop_16__1_);
 
-            PushButtonData pushButtonData = new PushButtonData("CreateColumn122", "Create Column",
-                 Assembly.GetExecutingAssembly().Location, "AddinRevit2024.FamilyView.FamilyTypeBinding");
+            PushButtonData pushButtonData = new PushButtonData("CreateColumn122", "Terminal Family",
+                 Assembly.GetExecutingAssembly().Location, "AddinRevit2024.TerminalFamily.TerminalBinding");
             pushButtonData.Image = imageResource;
             pushButtonData.LargeImage = imageResource;
             pushButtonData.ToolTip = "Show family and type";

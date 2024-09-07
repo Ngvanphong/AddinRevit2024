@@ -108,6 +108,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="TerminalFamily\TerminalViewModel.cs" />
+    <Compile Include="TerminalFamily\TerminalBinding.cs" />
+    <Compile Include="TerminalFamily\TerminalWpf.xaml.cs">
+      <DependentUpon>TerminalWpf.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TerminalFamily\TypeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="DemoWpf\ComboboxWpf.xaml">
@@ -115,6 +121,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="FamilyView\FamilyViewWpf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TerminalFamily\TerminalWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
