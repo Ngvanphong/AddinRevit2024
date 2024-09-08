@@ -113,6 +113,7 @@
     <Compile Include="TerminalFamily\TerminalWpf.xaml.cs">
       <DependentUpon>TerminalWpf.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TerminalFamily\TypeHandler.cs" />
     <Compile Include="TerminalFamily\TypeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

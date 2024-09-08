@@ -12,6 +12,7 @@ namespace AddinRevit2024.TerminalFamily
     [Transaction(TransactionMode.Manual)]
     public class TerminalBinding : IExternalCommand
     {
+        public static TerminalWpf form;
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
@@ -27,9 +28,12 @@ namespace AddinRevit2024.TerminalFamily
                 listTerminal.Add(terminal);
             }
 
-            TerminalWpf form= new TerminalWpf();
+            TypeHandler typeHandler= new TypeHandler();
+            ExternalEvent typeEvent= ExternalEvent.Create(typeHandler);
+
+            form = new TerminalWpf(typeEvent);
             form.comboboxTerminalFamily.ItemsSource= listTerminal;
-            form.ShowDialog();
+            form.Show();
 
 
             return Result.Succeeded;

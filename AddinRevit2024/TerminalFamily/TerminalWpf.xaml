@@ -17,7 +17,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Label Content="Terminal:"/>
-        <ComboBox Name="comboboxTerminalFamily" Grid.Column="1">
+        <ComboBox SelectionChanged="comboboxFamilyChanged" Name="comboboxTerminalFamily" Grid.Column="1">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -25,7 +25,6 @@
                         <TextBlock Text="/ Category="/>
                         <TextBlock Text="{Binding Sub.SubName}"/>
                     </StackPanel>
-                    
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autodesk.Revit.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,14 +21,21 @@ namespace AddinRevit2024.TerminalFamily
     /// </summary>
     public partial class TerminalWpf : Window
     {
-        public TerminalWpf()
+        private ExternalEvent _typeEvent;
+        public TerminalWpf(ExternalEvent typeEvent)
         {
             InitializeComponent();
+            _typeEvent = typeEvent;
         }
 
         private void btnClickOk(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void comboboxFamilyChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _typeEvent.Raise();
         }
     }
 }
